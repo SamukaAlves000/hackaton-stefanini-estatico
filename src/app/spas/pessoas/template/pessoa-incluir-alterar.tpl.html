@@ -52,24 +52,41 @@
             class="form-control"
             id="nascimentoPessoa"
             ng-model="vm.pessoa.dataNascimento"
-            ui-mask="99/99/9999"
             style="width: 120px;"
           />
         </div>
-        <div class="form-group">
-          <label for="nomePerfil">Perfil</label>
+
+        <div class="form-group crm-select-multiple">
+          <label for="nomePerfil" style="width: 250px;">Selecione perfils</label>
           <div>
-            <select
-              style="width: 250px; height: 38px;"
-              ng-class="{'disabledDiv': vm.listaPerfil.length === 0, 'custom-select custom-select-sm': true}"
-              ng-options="item as item.nome for item in vm.listaPerfil track by item.id"
-              ng-model="vm.perfil"
+            <select multiple
+            id="opcao-perfil"
+            style="width: 150px; height: 75px;"
+            ng-options="item as item.nome for item in vm.listaPerfil track by item.id"
+            ng-model="vm.selectedValues"
+            ng-click=" vm.addPerfil(item.nome)"
+            
             >
-              <option value="">-- PERFIL --</option>
+              
             </select>
           </div>
         </div>
+
+        <div class="form-group" ng-if="vm.tituloTela == 'Editar Pessoa'">
+          <label for="meuPerfil" style="width: 250px;">Meus perfils</label>
+          <div>
+            <select multiple  disabled
+              style="width: 150px; height: 75px;"
+              ng-class="{'disabledDiv': vm.pessoa.perfils.length === 0, 'custom-select custom-select-sm': true}"
+              ng-options="item as item.nome for item in vm.pessoa.perfils track by item.id"
+              ng-model="vm.pessoa.perfils" 
+            >
+            </select>
+          </div>
+        </div>
+
       </div>
+      
 
       <div class="form-check">
         <input
@@ -92,7 +109,7 @@
             width="25"
             height="25"
             title="Incluir Endereço"
-            ng-click="vm.abrirModal()"
+            ng-click="vm.abrirModal('Novo')"
           />
         </div>
         <table class="table table-hover">
@@ -182,6 +199,7 @@
             type="button"
             class="btn btn-primary btn-space"
             data-dismiss="modal"
+            ng-click="vm.incluirEndereco()"
           >
             Salvar
           </button>

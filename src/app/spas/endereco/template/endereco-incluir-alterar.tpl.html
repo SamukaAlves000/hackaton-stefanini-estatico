@@ -1,0 +1,98 @@
+<style>
+  .btn-space {
+    margin-right: 10px;
+  }
+
+  myModal {
+    z-index: 2147483647;
+  }
+
+  .disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+</style>
+
+<div ng-init="vm.init()">
+  <div
+    class="container"
+    style="overflow-y: auto; overflow-x: hidden; height: 425px"
+  >
+    <form>
+      <div class="mx-auto" style="width: 200px;">
+        <h5 class="modal-title">{{vm.tituloTela}}</h5>
+      </div>
+
+      <div class="form-group">
+        <label for="nomePerfil">CEP: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="cepEndereco"
+          ng-model="vm.enderecoModal.cep"
+          placeholder="Digite o o seu CEP..."
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="nomePerfil">UF: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="ufEndereco"
+          ng-model="vm.enderecoModal.uf"
+          placeholder="Digite a UF..."
+          ng-click="vm.buscarEndereco()"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="nomePerfil">Localidade: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="localidadeEndereco"
+          ng-model="vm.enderecoModal.localidade"
+          placeholder="Digite a localidade..."
+        />
+      </div>
+
+
+      <div class="form-group">
+        <label for="nomePerfil">Bairro: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="bairroEndereco"
+          ng-model="vm.enderecoModal.bairro"
+          placeholder="Digite o bairro..."
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="nomePerfil">Complemento: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="complementoEndereco"
+          ng-model="vm.enderecoModal.complemento"
+          placeholder="Digite o complemento..."
+        />
+      </div>
+
+
+      <div class="form-group">
+        <label for="nomePerfil">Logradouro: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="complementoEndereco"
+          ng-model="vm.enderecoModal.logradouro"
+          placeholder="Digite o logradouro..."
+        />
+      </div>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>

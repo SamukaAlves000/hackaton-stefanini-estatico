@@ -6,6 +6,8 @@ function PessoaListarController($rootScope, $scope, $location,
     $q, $filter, $routeParams, HackatonStefaniniService) {
     vm = this;
 
+  
+
     vm.qdePorPagina = 5;
     vm.ultimoIndex = 0;
     vm.contador = 0;
@@ -93,26 +95,66 @@ function PessoaListarController($rootScope, $scope, $location,
 
     vm.remover = function (id) {
 
-        var liberaExclusao = true;
+        vm.recuperarObjetoPorIDURL(id,"http://localhost:8080/treinamento/api/pessoas/existePerfil/").then(
+            function (existe) {
+                if (existe !== undefined) {
+                    if(existe){
+                        alert("Pessoa com Perfil vinculado, exclusão não permitida");
+                    }else{
+                        var liberaExclusao = true;
 
-        angular.forEach(vm.listaEndereco, function (value, key) {
-            if (value.idPessoa === id)
-                liberaExclusao = false;
-        });
+                        angular.forEach(vm.listaEndereco, function (value, key) {
+                            if (value.idPessoa === id)
+                                liberaExclusao = false;
+                        });
 
-        if (liberaExclusao)
-            HackatonStefaniniService.excluir(vm.url + id).then(
-                function (response) {
-                    vm.init();
+                        if (liberaExclusao)
+                            HackatonStefaniniService.excluir(vm.url + id).then(
+                                function (response) {
+                                    vm.init();
+                                }
+                            );
+                        else {
+                            alert("Pessoa com Endereço vinculado, exclusão não permitida");
+                        }
+                    }
                 }
-            );
-        else {
-            alert("Pessoa com Endereço vinculado, exclusão não permitida");
-        }
+            }
+        );
+       
+        
     }
 
     vm.retornarTelaListagem = function () {
         $location.path("listarPessoas");
     }
+
+        /**METODOS DE SERVICO */
+        vm.recuperarObjetoPorIDURL = function (id, url) {
+
+            var deferred = $q.defer();
+            HackatonStefaniniService.listarId(url + id).then(
+                function (response) {
+                    if (response.data !== undefined)
+                        deferred.resolve(response.data);
+                    else
+                        deferred.resolve(vm.enderecoDefault);
+                }
+            );
+            return deferred.promise;
+        };
+    
+        vm.listar = function (url) {
+    
+            var deferred = $q.defer();
+            HackatonStefaniniService.listar(url).then(
+                function (response) {
+                    if (response.data !== undefined) {
+                        deferred.resolve(response.data);
+                    }
+                }
+            );
+            return deferred.promise;
+        }
 
 }
